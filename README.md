@@ -1,7 +1,7 @@
 <h1>Emacs</h1>
 
 <h2>P4 Sync Revivion:</h2>
-    Emacs p4 plugin doesn't have provision to sync a file for given revision. p4-sync-revision enables to sync given revision of the current buffer file if its not opened for pending changelist.
+    p4-sync-revision enables to sync given revision of the file if its not opened for pending changelist.
 
 <h3>p4-fstat-output</h3>
 	Function to run fstat command and parse the output and returns matched value for given regex.
