@@ -10,7 +10,7 @@ Existing p4 submit function limits us to submit all the opened files. The custom
 <h2>Color theme:</h2>
 A dark theme based on vi default theme.
 </br></br>
-![alt tag](http://postimg.org/image/s3xp94b49/09192ca3/)
+![alt tag](https://github.com/krameshkrr/Emacs/blob/master/Color-theme/emacscolortheme.png)
 
 <h2>Customized which-func mode:</h2>
 - Which Function mode is a global minor mode.  When enabled, the current function name is continuously displayed in emacs mode line, in certain major modes.
