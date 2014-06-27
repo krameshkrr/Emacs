@@ -1,4 +1,4 @@
-<h1>Emacs</h1>
+<h1>P4 Customizations</h1>
 
 <h2>P4 Sync Revivion:</h2>
 p4-sync-revision enables to sync given revision of the file if its not opened for pending changelist.
@@ -35,17 +35,3 @@ Modified p4-submit process is being done as below:</br>
 
 <h3>p4-submit :</h3>
 Getting the file name of the current buffer and checks whether the file is opened for edit/add and it has some diff with the depot file and calling p4-async-process-command function to submit the changelist.
-
-<h2>Customized which-func mode</h2>
-- Which Function mode is a global minor mode.  When enabled, the current function name is continuously displayed in emacs mode line, in certain major modes.
-- Modified format of the function name displayed in the mode-line, since fully qualified name of the function name may exceed the window width.
-- As of now, I've hard coded the max-length of the function name displayed in the mode-line. This should be customized based on the window-width and rest space in the mode-line.
-- Enable this for particular major mode:  
-<code>
-    ;; Adding hook to the cperl mode  
-    (eval-after-load 'cperl-mode  
-	  '(add-hook 'cperl-mode-hook 'set-which-func-current t))
-</code>
-
-<h2>Kill-temporary-buffers</h2>
-Simple snippet to Kill unnecessary buffers such as *compilation*, *P4-output* etc., except some valid buffers(*scratch*, *Messages*).
