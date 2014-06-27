@@ -7,10 +7,13 @@ p4-sync-revision enables to sync given revision of the file if its not opened fo
 <h3>Customized P4 Submit:</h3>
 Existing p4 submit function limits us to submit all the opened files. The customized p4-submit function will allow you to submit the current file(only if it is opened for some operation(edit, add etc.,), otherwise it will show all the opened files to submit) and it will prompt you if you are trying to submit an empty diff file.
 
+<h2>Speedbar customizations</h2>
+Added more features like setting default directory from cursor point and current buffer etc., to make speedbar directory navigation more user-friendly.
+
 <h2>Color theme:</h2>
 A dark theme based on vi default theme.
 </br></br>
-![alt tag](https://github.com/krameshkrr/Emacs/blob/master/Color-theme/emacscolortheme.png)
+![alt tag](https://raw.githubusercontent.com/krameshkrr/Emacs/master/Color-theme/emacscolortheme.png)
 
 <h2>Customized which-func mode:</h2>
 - Which Function mode is a global minor mode.  When enabled, the current function name is continuously displayed in emacs mode line, in certain major modes.
