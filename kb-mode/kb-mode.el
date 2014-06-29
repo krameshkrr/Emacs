@@ -1,7 +1,7 @@
-;;; kb-mode.el --- Summary
+;;; kb-mode.el --- Managing temporary buffers
 
 ;;; Author: Ramesh Kandasamy <krameshkrr@gmail.com>
-;;; Created: Jun 2014
+;;; Created: June 2014
 ;;; Version: 1.0
 ;;; Keywords: convenience 
 
@@ -208,7 +208,7 @@
   :type 'boolean
   :group 'kb)
 
-(defcustom kb-clean-interval 10
+(defcustom kb-clean-interval 900
   "Time interval to run temp buffer cleaning."
   :type 'number
   :group 'kb)

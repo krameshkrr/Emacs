@@ -48,7 +48,7 @@ kb-minor-mode-timer-hook
 <li> ido-mode </li>
 
 <h3>Set defalut buffer selection regex</h3>
-Currently default temporary buffer selection regex is '*\.+*'.
+Currently default temporary buffer selection regex is '\*\.+\*'.
 
 <h3>Manage Buffer exceptions</h3>
 To add or delete buffer exceptions in order to prevent some buffers to kill.
@@ -98,7 +98,7 @@ Buffer exception list:
 
 Buffer selection default regex:
         \*.+\*
-        Buffer selection exception regex:
+Buffer selection exception regex:
         nil
 
 Buffer mode exceptions:
