@@ -26,5 +26,5 @@ A dark theme based on vi default theme.
 	  '(add-hook 'cperl-mode-hook 'set-which-func-current t))
 </code>
 
-<h2>Kill-temporary-buffers:</h2>
-Simple snippet to Kill unnecessary buffers such as *compilation*, *P4-output* etc., except some valid buffers(*scratch*, *Messages*).
+<h2>kb-mode:</h2>
+Minor mode for managing temporary buffers which enables to kill temporary buffers easily by providing user-friendly functions to select buffers to be killed more importanytly timer object can be set to kill the temporary buffers automatically in given interval.
