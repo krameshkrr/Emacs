@@ -2,7 +2,7 @@
 
 ;;; Author: Ramesh Kandasamy <krameshkrr@gmail.com>
 ;;; Created: June 2014
-;;; Version: 1.0
+;;; Version: 2.0
 ;;; Keywords: convenience 
 
 ;;; This file is not part of GNU Emacs.
@@ -23,105 +23,120 @@
 ;;; Boston, MA 02111-1307, USA.
 
 ;;; Commentary:
-; kb-mode (kill-buffer minor mode)
-; Minor mode for managing temporary buffers which enables to kill temporary buffers easily by providing user-friendly functions to select buffers to be killed more importanytly timer object can be set to kill the temporary buffers automatically in given interval.
+;; kb-mode (kill-buffer minor mode)
+;; Minor mode for managing temporary buffers which enables to kill temporary buffers easily by providing user-friendly functions to select buffers to be killed more importanytly timer object can be set to kill the temporary buffers automatically in given interval.
 
-; Install
-; Copy kb-mode.el to your load-path and add below snippet to your emacs init file.
-
-;     (require 'kb-mode)
-;     (kb-minor-mode 1)
-; Customizations
-; The below variables can be customized for your emacs session.
-
-; Variables
-; kb-default-temp-buffer-regex "\\*.+\\*"
-;   "String: Default regex to match temp buffers."
-
-; kb-kill-indirect-buffers nil
-;   "Boolean: Flag to indicate whether or not to kill indirect buffers."
-
-; kb-kill-if-modified nil
-;   "Boolean: Flag to indicate whether or not to kill the buffer if it has modifed content."
-
-; kb-prompt-for-running-process nil
-;   "Boolean: Flag to indicate whether or not to prompt user when killing a buffer in which a process run."
-
-; kb-kill-anyway nil 
-;   "Boolean: Flag to indicate whether or not kill the buffers regardless of its state such as modified, indirect buffer etc."
-
-; kb-clean-periodically t
-;   "Boolean: Flag to indicate whether or not to run temp buffer cleaning periodically."
-
-; kb-clean-interval 1000
-;   "Number: Time interval to run temp buffer cleaning."
-; Hooks
-; kb-minor-mode-hook
-;   "*Hook called when temp-buffer-manager minor mode is activated or deactivated."
-
-; kb-minor-mode-timer-hook
-;   "*Hook called when temp-buffer-manager minor mode timer is started."
-; Required thirty party packages
-; ido-mode
-; Set defalut buffer selection regex
-; Currently default temporary buffer selection regex is '.+'.
-
-; Manage Buffer exceptions
-; To add or delete buffer exceptions in order to prevent some buffers to kill.
-
-; kb-add-current-buffer-to-exception
-;     Current default buffer will be added to the exception list.
-; kb-remove-current-buffer-from-exception
-;     Current default buffer will be deleted from exception list.
-; kb-exception-add 
-;     Select any existing buffers from the choices given to add to the exception list. 
-; kb-exception-delete
-;     Select any buffer added to the exception list to remove.
-; Manage Major-Mode exceptions
-; Add or delete major-modes to the exception list to prevent those modes to be killed.
-
-; kb-mode-exception-add
-; kb-mode-exception-delete
-; Manage buffer state
-; Considering below buffer states before killing.
-
-; 1. whether buffer has modified content
-;     By default the modified buffer will not be deleted unless kb-kill-if-modified is set.
-; 2. Whether an active process in running on the buffer
-;     if kb-prompt-for-running-process is set, user will be prompted to decide whether the buffer should be deleted.
-; 3. Whether the buffer is an indirect buffer (not implemented yet)
-; Manage Timer
-; Set the interval(kb-clean-interval) to clean temporary buffers and start the timer.
-
-; To start the timer:
-;     M-x kb-start-timer
-; To stop the timer:
-;     M-x kb-stop-timer
-; Kb-help
-; kb-help function let you know the current conditions used to kill temporary buffer. Ex:
-
-; Temporary buffer management:
-
-; Conditions used to kill temp buffers:
-; Buffer exception list:
-;         *Messages*, *scratch*
-
-; Buffer selection default regex:
-;         \*.+\*
-;         Buffer selection exception regex:
-;         nil
-
-; Buffer mode exceptions:
-;     nil
-
-; Buffer state conditions:
-;         Buffers will not be killed if it has modified content.(To customize: kb-kill-if-modified)
-;     Buffers with running process will be killed without prompting.(To customize: kb-prompt-for-running-process)
-
-; Kill buffers periodically:
-;         To start the timer M-x kb-start-timer and the temp buffers will be killed for each 10 seconds
-
-;     To stop the timer M-x kb-stop-timer.
+;;; Install
+;; Copy kb-mode.el to your load-path and add below snippet to your Emacs init file.
+;;
+;;     (require 'kb-mode)
+;;     (kb-minor-mode 1)
+;;; Customizations:
+;; The below variables can be customized for your Emacs session.
+;;
+;;; Variables:
+;; kb-default-temp-buffer-regex "\\*.+\\*"
+;;   "String: Default regex to match temp buffers."
+;;
+;; kb-kill-indirect-buffers nil
+;;   "Boolean: Flag to indicate whether or not to kill indirect buffers."
+;;
+;; kb-kill-if-modified nil
+;;   "Boolean: Flag to indicate whether or not to kill the buffer if it has modifed content."
+;;
+;; kb-prompt-for-running-process nil
+;;   "Boolean: Flag to indicate whether or not to prompt user when killing a buffer in which a process run."
+;;
+;; kb-kill-anyway nil 
+;;   "Boolean: Flag to indicate whether or not kill the buffers regardless of its state such as modified, indirect buffer etc."
+;;
+;; kb-clean-periodically t
+;;   "Boolean: Flag to indicate whether or not to run temp buffer cleaning periodically."
+;;
+;; kb-clean-interval 1000
+;;   "Number: Time interval to run temp buffer cleaning."
+;;
+;;; Hooks:
+;; kb-minor-mode-hook
+;;   "*Hook called when temp-buffer-manager minor mode is activated or deactivated."
+;;
+;; kb-minor-mode-timer-hook
+;;   "*Hook called when temp-buffer-manager minor mode timer is started."
+;; Required thirty party packages
+;; ido-mode
+;; Set defalut buffer selection regex
+;; Currently default temporary buffer selection regex is '.+'.
+;;
+;;; Manage Buffer exceptions:
+;; To add or delete buffer exceptions in order to prevent some buffers to kill.
+;;
+;; kb-add-current-buffer-to-exception
+;;     Current default buffer will be added to the exception list.
+;; kb-remove-current-buffer-from-exception
+;;     Current default buffer will be deleted from exception list.
+;; kb-exception-add 
+;;     Select any existing buffers from the choices given to add to the exception list. 
+;; kb-exception-delete
+;;     Select any buffer added to the exception list to remove.
+;; Manage Major-Mode exceptions
+;; Add or delete major-modes to the exception list to prevent those modes to be killed.
+;;
+;; kb-mode-exception-add
+;; kb-mode-exception-delete
+;;
+;;; Manage buffer state:
+;; Considering below buffer states before killing.
+;;
+;; 1. whether buffer has modified content
+;;     By default the modified buffer will not be deleted unless kb-kill-if-modified is set.
+;; 2. Whether an active process in running on the buffer
+;;     if kb-prompt-for-running-process is set, user will be prompted to decide whether the buffer should be deleted.
+;; 3. Whether the buffer is an indirect buffer (not implemented yet)
+;; Manage Timer
+;; Set the interval(kb-clean-interval) to clean temporary buffers and start the timer.
+;;
+;; To start the timer:
+;;     M-x kb-start-timer
+;; To stop the timer:
+;;     M-x kb-stop-timer
+;;
+;;; Kb-help:
+;; kb-help function let you know the current conditions used to kill temporary buffer.
+;;
+;; Ex:
+;; Temporary buffer management:
+;;
+;; Conditions used to kill temp buffers:
+;; Buffer exception list:
+;;         *Messages*, *scratch*
+;;
+;; Buffer selection default regex:
+;;         \*.+\*
+;;         Buffer selection exception regex:
+;;         nil
+;;
+;; Buffer mode exceptions:
+;;     nil
+;;
+;; Buffer state conditions:
+;;         Buffers will not be killed if it has modified content.(To customize: kb-kill-if-modified)
+;;     Buffers with running process will be killed without prompting.(To customize: kb-prompt-for-running-process)
+;;
+;; Kill buffers periodically:
+;;         To start the timer M-x kb-start-timer and the temp buffers will be killed for each 10 seconds
+;;
+;;     To stop the timer M-x kb-stop-timer.
+;;
+;;; Version summary:
+;; 1.0:
+;;   Basic version of kb-mode
+;;
+;; 2.0:
+;;   Added following features and made changes to look code better
+;;    1. Defined custom variable to decide whether to use default regex or the buffers which are not associated with any buffer.
+;;    2. Provision to use idle time of temporary buffers and it can be customizable. 
+;;    3. Check whether buffer is visible to user before killing.
+;;
 
 (require 'ido)
 
@@ -132,7 +147,7 @@
   "Kill temporary buffers."
   :group 'tools
   :prefix "kb-"
-  :version "1.0"
+  :version "2.0"
   :group 'convenience)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -144,7 +159,7 @@
   :group 'kb)
 
 (defcustom kb-minor-mode-timer-hook nil
-  "*Hook called when temp-buffer-manager minor mode timer is started or stopped."
+  "*Hook called when temp-buffer-manager minor mode timer is started."
   :type 'hook
   :group 'kb)
 
@@ -208,9 +223,24 @@
   :type 'boolean
   :group 'kb)
 
-(defcustom kb-clean-interval 900
+(defcustom kb-clean-interval 1800
   "Time interval to run temp buffer cleaning."
   :type 'number
+  :group 'kb)
+
+(defcustom kb-idle-time-max 900
+  "The number of seconds before some buffers become eligible for killing."
+  :type 'number
+  :group 'kb)
+
+(defcustom kb-kill-visible-buffer nil
+  "Flag to indicate whether or not to kill temp buffer which is visible to the user."
+  :type 'boolean
+  :group 'kb)
+
+(defcustom kb-kill-buffers-without-any-file t
+  "Flag to use the buffers which are not associated with any file instead of default regex."
+  :type 'boolean
   :group 'kb)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -324,14 +354,13 @@
 	    (is-process-running (kb-running-process-p buffername))
 	    (can-delete nil))
 	(if (not kb-kill-anyway)
-	    (if (or (or (and
-			  (not is-modified)
-			  (not is-process-running))
-			(and
-			 (and kb-prompt-for-running-process 
-			      is-process-running)
-			 (kb-util-prompt-to-kill (concat "Process is running on " buffername))))
-		    (and kb-kill-if-modified 
+	    (if (or (and
+		     (not is-modified)
+		     (not is-process-running))
+		    (and kb-prompt-for-running-process
+			 is-process-running
+			 (kb-util-prompt-to-kill (concat "Process is running on " buffername)))
+		    (and kb-kill-if-modified
 			 is-modified))
 		(setq can-delete t))
 	  (setq can-delete t)) can-delete)))
@@ -374,7 +403,7 @@
 
 (defun kb-util-add-no-dup (element list)
   "Util function to add given ELEMENT to LIST without duplicates."
-  (if (and (and element list)
+  (if (and element list
 	   (not (member element list)))
       (setq list (kb-util-add-to-list element list))) list)
 
@@ -386,6 +415,11 @@
   "Util function to add given ELEMENT to given LIST."
   (if (and element list)
       (setq list (cons element list))) list)
+
+(defun kb-util-buffer-visible-p (buffername)
+  "Check whether the BUFFERNAME is currently visible to the user."
+  (if (get-buffer-window buffername 'visible)
+      t nil))
 
 (defun kb-util-message (msg)
   "Function to show kb messages(MSG)."
@@ -413,7 +447,8 @@
   (let ((mode-list kb-mode-exceptions-list)
 	(buffer-major-mode (kb-util-get-major-mode buffername))
 	(deletable nil))
-    (if (or (not buffer-major-mode) (= 0 (length mode-list)))
+    (if (or (not buffer-major-mode) 
+	    (= 0 (length mode-list)))
 	(setq deletable t)
       (progn
 	(while (and mode-list (not deletable))
@@ -421,21 +456,41 @@
 	      (setq deletable t))
 	  (setq mode-list (cdr mode-list))))) deletable))
 
+(defun kb-util-buffer-display-time (buffername)
+  "Return buffer display time for given BUFFERNAME."
+  (with-current-buffer buffername
+    (when buffer-display-time (float-time buffer-display-time))))
+
+(defun kb-util-buffer-idle-check (&optional buffername)
+  "Check idle time of given BUFFERNAME and return whether it can be deletable or not."
+  (interactive)
+  (let* ((time-now (float-time))
+	(buffer-time-stamp (kb-util-buffer-display-time buffername))
+	(idle-time (if buffer-time-stamp (- time-now buffer-time-stamp) 0)))
+    (if (>= (round idle-time) kb-idle-time-max)
+	t nil)))
+
 (defun kb-util-set-mode-line (str)
   "Set mode line for temp buffer manager minor mode as STR."
   (unless str
     (setq str ""))
+  (unless kb-minor-mode
+    (kb-minor-mode 1))
   (setq kb-mode-line str)
   (force-mode-line-update))
 
 (defun kb-default-temp-buffer-check (buffername)
   "Check whether the given BUFFERNAME match with default temp buffer regex."
-  (if (and (and 
-	    buffername 
-	    kb-default-temp-buffer-regex) 
-	   (string-match kb-default-temp-buffer-regex buffername))
-      t
-    nil))
+  (let ((buffer (get-buffer buffername))
+	(can-delete nil))
+    (if buffer
+	 (if kb-kill-buffers-without-any-file
+	    (unless (buffer-file-name buffer) 
+	      (setq can-delete t))
+	  (if (and
+	       kb-default-temp-buffer-regex
+	       (string-match kb-default-temp-buffer-regex buffername))
+	      (setq can-delete t)))) can-delete))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; kb kill functions
@@ -449,16 +504,20 @@ buffer mode exceptions: list of major modes to exclude buffers
 buffers with certain states: buffer modified, process running in the buffer etc.,"
   (interactive)
   (let* ((list-of-buffers (mapcar (function buffer-name) (buffer-list)))
-	 (current-buffer-name nil))
+	 (current-buffer-name nil)
+	 (visible-buffer-p nil))
     (kb-util-set-mode-line (concat kb-mode-line-lighter "*"))
     (while list-of-buffers
       (setq current-buffer-name (car list-of-buffers))
+      (setq visible-buffer-p (kb-util-buffer-visible-p current-buffer-name))
       (when (and (kb-default-temp-buffer-check current-buffer-name)
-		 (and (not (member current-buffer-name kb-exception-alist))
-		      (and
-		       (kb-state-check current-buffer-name)
-		       (and (kb-util-buffer-mode-check current-buffer-name)
-			    (kb-util-buffer-regex-check current-buffer-name)))))
+		 (not (member current-buffer-name kb-exception-alist))
+		 (kb-state-check current-buffer-name)
+		 (kb-util-buffer-mode-check current-buffer-name)
+		 (kb-util-buffer-regex-check current-buffer-name)
+		 (kb-util-buffer-idle-check current-buffer-name)
+		 (or (not visible-buffer-p) 
+		     (and visible-buffer-p kb-kill-visible-buffer)))
 	(progn
 	  (kb-util-message (concat "Killing buffer: " current-buffer-name))
 	  (kill-buffer current-buffer-name)))
@@ -505,7 +564,7 @@ buffers with certain states: buffer modified, process running in the buffer etc.
     (concat msg-str "\n\n")))
 
 (defun kb-timer-help ()
-  "Returns help string regarding kb timer."
+  "Return help string regarding kb timer."
   (let ((str "Kill buffers periodically:"))
     (if kb-clean-timer
 	(setq str (concat str "\n\tTimer is already running and buffer are being killed for each " (int-to-string kb-clean-interval) " seconds."))

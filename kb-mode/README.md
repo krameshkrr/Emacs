@@ -33,6 +33,16 @@ kb-clean-periodically t
 
 kb-clean-interval 1000
   "Number: Time interval to run temp buffer cleaning."
+  
+kb-idle-time-max 900
+  "The number of seconds before some buffers become eligible for killing."
+
+kb-kill-visible-buffer nil
+  "Flag to indicate whether or not to kill temp buffer which is visible to the user."
+
+kb-kill-buffers-without-any-file t
+  "Flag to use the buffers which are not associated with any file instead of default regex."
+
 ```
 
 <h4>Hooks</h4>
@@ -47,8 +57,8 @@ kb-minor-mode-timer-hook
 <h3>Required thirty party packages</h3>
 <li> ido-mode </li>
 
-<h3>Set defalut buffer selection regex</h3>
-Currently default temporary buffer selection regex is '\*\.+\*'.
+<h3>Defalut temporary buffer selection:</h3>
+Set either selection regex(currently '\*\.+\*') or kb-kill-buffers-without-any-file to kill all the buffers which are not associated with any file.
 
 <h3>Manage Buffer exceptions</h3>
 To add or delete buffer exceptions in order to prevent some buffers to kill.
@@ -76,7 +86,9 @@ Considering below buffer states before killing.
     By default the modified buffer will not be deleted unless kb-kill-if-modified is set.
 2. Whether an active process in running on the buffer
     if kb-prompt-for-running-process is set, user will be prompted to decide whether the buffer should be deleted.
-3. Whether the buffer is an indirect buffer (not implemented yet)
+3. idle buffers: Set maximuum idle time for buffers to become eligible for killing.
+4. Visible buffers: Set kb-kill-visible-buffers to kill the currently viewing buffers otherwise it won't kill.
+5. Whether the buffer is an indirect buffer (not implemented yet)
 ```
 
 <h3>Manage Timer</h3>
@@ -94,22 +106,22 @@ Temporary buffer management:
 
 Conditions used to kill temp buffers:
 Buffer exception list:
-        *Messages*, *scratch*
+      *Messages*, *scratch*
 
 Buffer selection default regex:
-        \*.+\*
+      \*.+\*
 Buffer selection exception regex:
-        nil
+      nil
 
 Buffer mode exceptions:
-    nil
+      nil
 
 Buffer state conditions:
-        Buffers will not be killed if it has modified content.(To customize: kb-kill-if-modified)
-	Buffers with running process will be killed without prompting.(To customize: kb-prompt-for-running-process)
+      Buffers will not be killed if it has modified content.(To customize: kb-kill-if-modified)
+      Buffers with running process will be killed without prompting.(To customize: kb-prompt-for-running-process)
 
 Kill buffers periodically:
-        To start the timer M-x kb-start-timer and the temp buffers will be killed for each 10 seconds
+      To start the timer M-x kb-start-timer and the temp buffers will be killed for each 10 seconds
 
-	To stop the timer M-x kb-stop-timer.
+      To stop the timer M-x kb-stop-timer.
 ```
