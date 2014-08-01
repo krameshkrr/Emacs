@@ -90,6 +90,8 @@
     (define-key map "R"                       #'tm-reset-puzzle)
     (define-key map [left]                    #'tm-move-previous)
     (define-key map [right]                   #'tm-move-next)
+    (define-key map [up]                      #'tm-invalid-key)
+    (define-key map [down]                    #'tm-invalid-key)
     (define-key map [(control e)]             #'tm-easy-mode)
     (define-key map [(control m)]             #'tm-moderate-mode)
     (define-key map [(control d)]             #'tm-difficult-mode)
@@ -496,6 +498,12 @@ Return t if it matches else nil."
     (if (>= tm-current-puzzle-index c-length)
 	(tm-load-message "Congrats! you are done with all puzzles...")
       (tm-init-puzzle (nth tm-current-puzzle-index tm-puzzle-list)))))
+
+(defun tm-invalid-key ()
+  "Prevent some key bindings in `turing-machine' game."
+  (interactive)
+  (ding t)
+  (message "Invalid key."))
 
 (defun tm-quit ()
   "Quit the current game of `turing-machine'."

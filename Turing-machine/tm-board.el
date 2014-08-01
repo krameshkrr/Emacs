@@ -756,15 +756,17 @@ structure: [list (x1 y1 index-list) list(x2 y2 index-list)]."
   "Initialize the given PUZZLE in `tm-board'."
   (if (tm-puzzle-p puzzle)
       (progn
-	(setq tm-current-puzzle-source (tm-get-puzzle-copy puzzle))
-	(setq tm-current-puzzle (tm-get-puzzle-copy puzzle))
-	(setq tm-variable-state-positions nil)
-	(setq tm-state-values nil)
-	(setq tm-tape-vector nil)
-	(setq tm-state-count nil)
-	(setq tm-variable-state-positions (make-vector (* 2 (length (tm-puzzle-states tm-current-puzzle))) nil))
+	(setq tm-current-puzzle-source (tm-get-puzzle-copy puzzle)
+	      tm-current-puzzle (tm-get-puzzle-copy puzzle)
+	      tm-variable-state-positions nil
+	      tm-state-values nil
+	      tm-tape-vector nil
+	      tm-state-count nil)
+
+	(setq tm-variable-state-positions (make-vector (* 2 (length (car (tm-puzzle-states tm-current-puzzle)))) nil))
 
 	(tm-load-puzzle tm-current-puzzle)
+
 	(tm-clean-variable-states-positions)
 	(tm-load-help)
 	(tm-position-cursor)
