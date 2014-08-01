@@ -16,7 +16,7 @@ A dark theme based on vi default theme.
 ![alt tag](https://raw.githubusercontent.com/krameshkrr/Emacs/master/Color-theme/emacscolortheme.png)
 
 <h2>Turing-machine:</h2>
-Turing machine puzzle game for emacs. A puzzle is defined with a turing machine tape, target and its states. Play with the states to make the tape as target. I have given with some puzzles in each complexity and user can defined their own puzzles and add it to the existing puzzles and play.
+Turing machine puzzle game for emacs. A puzzle is defined with a turing machine tape, target and its states. Play with the states to make the tape as target. I have given with some puzzles with various complexities and user can define their own puzzles and add it to the existing puzzles and play.
 
 <h2>Customized which-func mode:</h2>
 - Which Function mode is a global minor mode.  When enabled, the current function name is continuously displayed in emacs mode line, in certain major modes.
