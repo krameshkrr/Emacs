@@ -2,7 +2,7 @@
 ;;; Author: Ramesh Kandasamy <krameshkrr@gmail.com>
 ;;; Created: July 2014
 ;;; Version: 1.0
-;;; Keywords: game 
+;;; Keywords: game
 
 ;;; This file is not part of GNU Emacs.
 
@@ -484,8 +484,9 @@ Return t if it matches else nil."
   (interactive)
   (let ((inhibit-read-only t))
     (artist-mode)
-    (tm-load-tape tm-current-puzzle)
-    (tm-load-states (tm-puzzle-states tm-current-puzzle))
+    (tm-load-tape tm-current-puzzle-source)
+    (tm-load-states (tm-puzzle-states tm-current-puzzle-source))
+    (tm-position-cursor)
     (tm-artist-mode-off)))
 
 (defun tm-next-puzzle ()
