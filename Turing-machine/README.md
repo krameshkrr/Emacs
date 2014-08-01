@@ -13,7 +13,7 @@ Turing machine is a computing machine that can use a predefined set of rules to 
     artist-mode
 
 <h2>How to play</h2>
-    To start the game M-x turing-machine and a puzzle will be loaded. Navigate through the states using left/right arrow and change its values using space and hit 'p' to process the states and match it with target. Help is always shown in game buffer as below.
+To start the game M-x turing-machine and a puzzle will be loaded. Navigate through the states using left/right arrow and change its values using space and hit 'p' to process the states and match it with target. Help is always shown in game buffer as below.
     
 Screen Shot:
 ![alt tag](https://raw.githubusercontent.com/krameshkrr/Emacs/master/Turing-machine/Turing-machine.png)
