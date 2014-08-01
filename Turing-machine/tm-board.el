@@ -33,7 +33,6 @@
    (require 'cl))
 
 (require 'artist)
-(require 'cl-lib)
 (require 'tm-puzzles)
 
 ;; Tape
@@ -140,7 +139,7 @@
 (defvar tm-current-puzzle nil
   "Modified states of current puzzle.")
 
-(defvar tm-current-puzzle-original nil
+(defvar tm-current-puzzle-source nil
   "Original states of current puzzle.")
 
 (defvar tm-puzzle-list nil
@@ -635,7 +634,7 @@ structure: [list (x1 y1 index-list) list(x2 y2 index-list)]."
 	(tm-state-cursor-xy nil))
     (artist-mode)
     (artist-clear-buffer (get-buffer tm-buffer-name))
-    (tm-print-header)
+    (tm-print-header puzzle)
     (if (tm-puzzle-p puzzle)
 	(progn
 	  ;; Load target string
@@ -732,19 +731,33 @@ structure: [list (x1 y1 index-list) list(x2 y2 index-list)]."
   (artist-mode-off)
   (artist-mode-exit))
 
-(defun tm-print-header ()
-  "Print the header."
-  (artist-text-insert-common tm-tape-position-x
-			     2
-			     "Turing Machine Game :"
-			     nil)
-  )
+(defun tm-get-complexity-str (puzzle)
+  "Return human readable complexity string for PUZZLE."
+  (if (tm-puzzle-p puzzle)
+      (let ((complexity (tm-puzzle-complexity puzzle)))
+	(cond ((= complexity 1) "Easy mode")
+	      ((= complexity 2) "Moderate mode")
+	      ((>= complexity 3) "Difficult mode")))
+    ))
+
+(defun tm-print-header (puzzle)
+  "Print the header based on the given PUZZLE."
+  (let ((header "Turing Machine Game : ")
+	(complexity-str (tm-get-complexity-str puzzle)))
+    (if complexity-str
+	(setq header (concat header " (" complexity-str ") ")))
+    (artist-text-insert-common tm-tape-position-x
+			       2
+			       header
+			       nil)
+    ))
 
 (defun tm-init-puzzle (puzzle)
   "Initialize the given PUZZLE in `tm-board'."
   (if (tm-puzzle-p puzzle)
       (progn
-	(setq tm-current-puzzle puzzle)
+	(setq tm-current-puzzle-source (tm-get-puzzle-copy puzzle))
+	(setq tm-current-puzzle (tm-get-puzzle-copy puzzle))
 	(setq tm-variable-state-positions nil)
 	(setq tm-state-values nil)
 	(setq tm-tape-vector nil)
