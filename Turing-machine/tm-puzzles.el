@@ -268,21 +268,69 @@ initial-tape-pos => The initial tape cursor position
    ((tm-loop-p state) (setf (tm-loop-value state) value))
    ))
 
+;; Validate puzzle
+(defun tm-puzzle-check-values (states)
+  "Validate STATES values."
+  (let ((states-1 (car states))
+	(states-2 (cadr states))
+	(s-length nil)
+	(index 0)
+	(valid t))
+    (setq s-length (length states-1))
+    (while (and states-1 valid)
+      (if (not (or (member (tm-get-state-value (car states-1)) '(0 1 -1 -2))
+		   (and (tm-loop-p (car states-1)) (tm-check-loop-termination (car states-1) index s-length))))
+	  (setq valid nil))
+      (setq index (+ index 1))
+      (setq states-1 (cdr states-1))
+      (if (and (not states-1) (not states-2))
+	  (progn
+	    (setq index 0)
+	    (setq states-1 states-2)
+	    (setq states-2 nil))))
+    valid))
+
+(defun tm-check-loop-termination (loop-state position s-length)
+  "Check given LOOP-STATE has valid termination against POSITION and S-LENGTH."
+  (let ((loop-length (tm-loop-end loop-state)))
+    (cond ((not loop-length) nil)
+	  ((or (< (+ position loop-length) 0)
+	      (>= (+ position loop-length) s-length)) nil)
+	  (t t)
+	  )))
+
+(defun tm-puzzle-check-states (states)
+  (let ((states-1 (car states))
+	(states-2 (cadr states))
+	(valid t))
+    (cond ((not (= (length states-1) (length states-2))) (setq valid nil))
+	  ((not (tm-puzzle-check-values states)) (setq valid nil)))
+    valid))
+
+(defun tm-puzzle-check-complexity (complexity)
+  (if (and (> complexity 0) (<= complexity 3))
+      t nil))
+
 (defun tm-validate-puzzle (puzzle)
   "Validating the puzzle."
-  t
-)
+  (cond ((not (tm-puzzle-p puzzle)) nil)
+	((= (length (tm-puzzle-initial-value puzzle)) 0) nil)
+	((not (tm-puzzle-check-states (tm-puzzle-states puzzle))) nil)
+	((not (tm-puzzle-check-complexity (tm-puzzle-complexity puzzle))) nil)
+	(t t)))
 
 (defun tm-add-puzzle (puzzle)
   "Add given PUZZLE to default puzzle lsit."
   (if (and (tm-puzzle-p puzzle) (tm-validate-puzzle puzzle))
       (setq tm-puzzles (cons puzzle tm-puzzles))
+    (message "Invalid puzzle.")
     ))
 
 (defun tm-add-user-puzzle (puzzle)
   "Add given PUZZLE to user defined puzzles."
   (if (and (tm-puzzle-p puzzle) (tm-validate-puzzle puzzle))
-      (setq tm-user-puzzles (cons puzzle tm-user-puzzles))))
+      (setq tm-user-puzzles (cons puzzle tm-user-puzzles))
+    (message "Invalid puzzle.")))
 
 (defun tm-set-default-puzzles ()
   "Set default puzzles to puzzles-list."
@@ -343,7 +391,7 @@ initial-tape-pos => The initial tape cursor position
 
     ;;; Complexity 2
     ;; Puzzle 5
-    (setq puzzle-states (list (list c0vd c1vd c1vd loop-4)
+    (setq puzzle-states (list (list c0vd c1vd c1vd loop-3)
 			      (list s0r dR dR dR)))
     (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "01011" :target "00011" :initial-tape-pos 3 :complexity 2))
     (tm-add-puzzle puzzle)
@@ -368,7 +416,7 @@ initial-tape-pos => The initial tape cursor position
     
     ;; Puzzle 9
     (setq puzzle-states (list (list dL c0vd loop-2 empty dL s1r dL s0r)
-			      (list empty empty s0r dR cnvu loop-2)))
+			      (list empty empty s0r dR cnvu loop-2 empty empty)))
     (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "01 01" :target "00011" :initial-tape-pos 3 :complexity 2))
     (tm-add-puzzle puzzle)
 
@@ -421,6 +469,47 @@ initial-tape-pos => The initial tape cursor position
     (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "11111" :target "00000" :initial-tape-pos 3 :complexity 3))
     (tm-add-puzzle puzzle)
 
+    ;; Puzzle 18
+    (setq puzzle-states (list (list dL dL c0vd dR c0vd loop-3 empty empty)
+			      (list empty empty s0r c0vu s1r dR c0vu loop-4)))
+    (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "1 000" :target "10101" :initial-tape-pos 3 :complexity 3))
+    (tm-add-puzzle puzzle)
+
+    ;; Puzzle 19
+    (setq puzzle-states (list (list s0v c0vd s0v c0vd s0v c0vd dL s0v)
+			      (list empty dL c0vu dL c0vu dR cnvu loop-2)))
+    (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "   00" :target "10001" :initial-tape-pos 3 :complexity 3))
+    (tm-add-puzzle puzzle)
+
+    ;; Puzzle 20
+    (setq puzzle-states (list (list c1vd s0r dR c0vd s1r loop-3)
+			      (list dL c0vu loop-2 dr dl s0r)))
+    (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "10000" :target "01101" :initial-tape-pos 3 :complexity 3))
+    (tm-add-puzzle puzzle)
+
+    ;; Puzzle 21
+    (setq puzzle-states (list (list c0vd empty dr s0r dR s1r cnvd)
+			      (list dL c0vu dR c0vu empty empty loop-4)))
+    (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "1 1 0" :target "01010" :initial-tape-pos 3 :complexity 3))
+    (tm-add-puzzle puzzle)
+
+    ;; Puzzle 22
+    (setq puzzle-states (list (list dL c0vd loop-2 dr dl dr s0v)
+			      (list empty dR empty c0vu s1r loop-4 empty)))
+    (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "00000" :target "11011" :initial-tape-pos 3 :complexity 3))
+    (tm-add-puzzle puzzle)
+
+    ;; Puzzle 23
+    (setq puzzle-states (list (list dR dR cnvd empty cnrd s0v loop-4 empty)
+			      (list empty empty dr c0vu dr dl dr s1v)))
+    (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "00000" :target "11011" :initial-tape-pos 3 :complexity 3))
+    (tm-add-puzzle puzzle)
+
+    ;; Puzzle 24
+    (setq puzzle-states (list (list cnvd s1v dL s1v loop-4 dr s1v)
+			      (list dR dR s1v empty dl s1v loop-2)))
+    (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "00000" :target "11010" :initial-tape-pos 3 :complexity 3))
+    (tm-add-puzzle puzzle)
 ))
 
 (defun tm-get-puzzles ()
