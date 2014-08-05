@@ -710,7 +710,7 @@ structure: [list (x1 y1 index-list) list(x2 y2 index-list)]."
 	(progn
 	  (while (and (< index v-length) (elt tm-variable-state-positions (+ 1 index)))
 	    (setq index (+ 1 index)))
-	  (if (> index 0)
+	  (if (>= index 0)
 	      (setq tm-temp-variable-vector (make-vector (+ 1 index) nil)))
 	  (while (>= index 0)
 	    (aset tm-temp-variable-vector index (elt tm-variable-state-positions index))
