@@ -127,8 +127,9 @@
 (defun tm-check-conditional (cond-val)
   "Check conditional state value against the current tape value."
   (let ((current-val (car (elt tm-tape-vector tm-tape-vector-index))))
-    (if (and (string= current-val " ") (< cond-val 0))
-	t
+    (if (string= current-val " ")
+	(if (< cond-val 0)
+	    t nil)
       (if (= (string-to-number current-val) cond-val)
 	  t nil))))
 
@@ -145,32 +146,40 @@
   (let* ((inhibit-read-only t)
 	 (t-current (elt tm-tape-vector tm-tape-vector-index))
 	 (clear-current nil)
+	 (errored nil)
 	 (x-pos (cadr t-current))
 	 (y-pos (caddr t-current)))
     (artist-mode)
-    (cond ((and (= direction 0) (> tm-tape-vector-index 0)) 
-	   (progn
-	     (artist-text-insert-common (- x-pos 2)
-					(+ 1 (/ tm-tape-width 2) y-pos)
-					"_"
-					nil)
-	     (setq tm-tape-vector-index (- tm-tape-vector-index 1))
-	     (setq clear-current t)))
-	  ((and (= direction 1) (< tm-tape-vector-index (- (length tm-tape-vector) 1)))
-	   (progn
-	     (artist-text-insert-common (+ x-pos 6)
-					(+ 1 (/ tm-tape-width 2) y-pos)
-					"_"
-					nil)
-	     (setq tm-tape-vector-index (+ tm-tape-vector-index 1))
-	     (setq clear-current t))))
+    (cond 
+     ((= direction 0)
+      (if (> tm-tape-vector-index 0)
+	  (progn
+	    (artist-text-insert-common (- x-pos 2)
+				       (+ 1 (/ tm-tape-width 2) y-pos)
+				       "_"
+				       nil)
+	    (setq tm-tape-vector-index (- tm-tape-vector-index 1))
+	    (setq clear-current t))
+	(setq errored t)))
+     ((= direction 1)
+      (if (< tm-tape-vector-index (- (length tm-tape-vector) 1))
+	  (progn
+	    (artist-text-insert-common (+ x-pos 6)
+				       (+ 1 (/ tm-tape-width 2) y-pos)
+				       "_"
+				       nil)
+	    (setq tm-tape-vector-index (+ tm-tape-vector-index 1))
+	    (setq clear-current t))
+	(setq errored t)
+	)))
     (if clear-current
 	;; Clear current cursor pointer
 	(artist-text-insert-common (+ x-pos 2)
 				   (+ 1 (/ tm-tape-width 2) y-pos)
 				   " "
 				   nil))
-    (tm-artist-mode-off)))
+    (tm-artist-mode-off)
+    errored))
 
 (defun tm-unset-tape-cursor ()
   "Unsetting tape cursor point."
@@ -260,6 +269,7 @@
 	(loop-direction nil)
 	(next-state nil)
 	(processed nil)
+	(errored nil)
 	(state-index 0))
     (setq c-state (car c-state-list))
     (setq cursor-type nil)
@@ -267,7 +277,7 @@
 	(progn
 	  (tm-load-message "Processing states...")
 	  (tm-set-state-cursor (cdr c-state-list))
-	  (while (not processed)
+	  (while (and (not processed) (not errored))
 	    (sit-for tm-animate-delay)
 	    (cond
 	     ((tm-empty-p c-state) (setq next-state (tm-move-state set-index
@@ -279,7 +289,7 @@
 								     state-index
 								     1))))
 	     ((tm-direction-p c-state) (progn 
-					 (tm-move-tape-cursor (tm-direction-value c-state))
+					 (setq errored (tm-move-tape-cursor (tm-direction-value c-state)))
 					 (setq next-state (tm-move-state set-index
 									 state-index
 									 1)) ;; always move to right
@@ -307,37 +317,43 @@
 				      )
 				    ))
 	     )
-	    (if (not next-state)
-		(setq processed t)
-	      (progn
-		(setq c-state-list (car next-state)
-		      set-index (cadr next-state)
-		      state-index (caddr next-state))
-		(setq c-state (car c-state-list))))
-	    )
-	  (tm-unset-state-cursor (cdr c-state-list))
+	    (if (not errored)
+		(if (not next-state)
+		    (setq processed t)
+		  (progn
+		    (setq c-state-list (car next-state)
+			  set-index (cadr next-state)
+			  state-index (caddr next-state))
+		    (setq c-state (car c-state-list))))
+	      ))
+
 	  (tm-unset-tape-cursor)
-	  (tm-load-message "Processing states. Done..")
-	  (sit-for tm-animate-delay)
-	  (tm-load-message "Matching with target..")
-	  (sit-for tm-animate-delay)
-	  (if (not (tm-check))
+	  (if errored
 	      (progn
-		(tm-load-message "Target failed to match.. Resetting puzzle..")
-		(sit-for tm-animate-delay)
-		(tm-reset-puzzle)
-		)
+		(tm-load-message "Tape limit exceeded.. Resetting puzzle..")
+		(tm-reset-puzzle))
 	    (progn
-	      (tm-load-message "Target Matched..")
-	      (ding t)
-	      (if (yes-or-no-p "Want to load next puzzle?")
-		  (tm-next-puzzle)
+	      (tm-unset-state-cursor (cdr c-state-list))
+	      (tm-load-message "Processing states. Done..")
+	      (sit-for tm-animate-delay)
+	      (tm-load-message "Matching with target..")
+	      (sit-for tm-animate-delay)
+	      (if (not (tm-check))
+		  (progn
+		    (tm-load-message "Target failed to match.. Resetting puzzle..")
+		    (sit-for tm-animate-delay)
+		    (tm-reset-puzzle))
 		(progn
-		  (tm-load-message "Thank you for playing.. exiting.")
-		  (sit-for tm-animate-delay)
-		  (tm-quit)))
-	    ))
-	  ))
+		  (tm-load-message "Target Matched..")
+		  (ding t)
+		  (if (yes-or-no-p "Want to load next puzzle?")
+		      (tm-next-puzzle)
+		    (progn
+		      (tm-load-message "Thank you for playing.. exiting.")
+		      (sit-for tm-animate-delay)
+		      (tm-quit)))
+		  ))
+	      ))))
     (setq cursor-type t)
     (setq tm-state-cursor 0)
     (tm-position-cursor)))
