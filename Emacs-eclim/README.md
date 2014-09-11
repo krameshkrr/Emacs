@@ -4,7 +4,7 @@ Enabling easy way to open eclipse workspace through eclim.
 - Starting eclimd for the workspace
 - Runs user defined hooks once eclims started. (Ex: you can project explorer for the workspace)
 
-<h2>Install<h2>
+<h2>Install</h2>
 Copy eclim-workspace.el to your load path and byte compile the same. Add below line to your emacs init file.
 ```
 (require 'eclim-workspace)
@@ -18,7 +18,7 @@ eclim-ws-eclipse-config-dir - eclipse configuration directory where all the conf
 
 To open workspace: M-x eclim-ws-open or you can set any key bindings to this function.
 
-<h2>Customization:<h2>
+<h2>Customization:</h2>
 You can add your additional customization when eclimd starts by adding hook.
 ```
 eclim-ws-eclimd-start-hook
