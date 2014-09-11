@@ -18,16 +18,22 @@ A dark theme based on vi default theme.
 <h2>Turing-machine:</h2>
 Turing machine puzzle game for emacs. A puzzle is defined with a turing machine tape, target and its states. Play with the states to make the tape as target. I have given with some puzzles with various complexities and user can define their own puzzles and add it to the existing puzzles and play.
 
+<h2>Eclim-workspace:</h2>
+Enabling easy way to open eclipse workspace through eclim. 
+- Listing recent eclipse workspaces and allowing to choose from them
+- Starting eclimd for the workspace
+- Runs user defined hooks once eclims started. (Ex: you can project explorer for the workspace)
+
 <h2>Customized which-func mode:</h2>
 - Which Function mode is a global minor mode.  When enabled, the current function name is continuously displayed in emacs mode line, in certain major modes.
 - Modified format of the function name displayed in the mode-line, since fully qualified name of the function name may exceed the window width.
 - As of now, I've hard coded the max-length of the function name displayed in the mode-line. This should be customized based on the window-width and rest space in the mode-line.
 - Enable this for particular major mode:  
-<code>
+```
     ;; Adding hook to the cperl mode  
     (eval-after-load 'cperl-mode  
 	  '(add-hook 'cperl-mode-hook 'set-which-func-current t))
-</code>
+```
 
 <h2>kb-mode:</h2>
 Minor mode for managing temporary buffers which enables to kill temporary buffers easily by providing user-friendly functions to select buffers to be killed more importanytly timer object can be set to kill the temporary buffers automatically in given interval.
