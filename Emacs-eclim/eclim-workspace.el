@@ -42,6 +42,9 @@
   :group 'eclim
   :type 'hook)
 
+(defvar eclim-workspace-dir nil
+  "Current workspace directory.")
+
 (defvar eclim-ws-parent-dir nil
   "Root directory of all the workspaces.")
 
@@ -54,7 +57,7 @@
 (defun eclim-ws-get-src (workspace)
   "Get src directory for given WORKSPACE."
     (if workspace
-	(concat (replace-regexp-in-string "\/$" "" workspace "/src/"))
+	(concat (replace-regexp-in-string "\/$" "" workspace) "/src/")
       nil))
 
 (defun eclim-ws-get-recent-workspaces ()
@@ -93,7 +96,7 @@ It returns the port it is listening on"
 	(when output
 	  (setq eclimd-port (match-string 1 output))
 	  (message (concat "eclimd serving at port " eclimd-port))
-	  (run-hooks eclim-ws-eclimd-start-hook))))
+	  (run-hooks 'eclim-ws-eclimd-start-hook))))
     eclimd-port))
 
 (defun eclim-ws-start-eclimd (workspace-dir)
@@ -133,6 +136,7 @@ It returns the port it is listening on"
      (t (progn
        (if eclim-ws-multple-instance
 	   (eclim-ws-remove-lock workspace-dir))
+       (setq eclim-workspace-dir workspace-dir)
        (eclim-ws-start-eclimd workspace-dir)
        )))))
 

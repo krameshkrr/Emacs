@@ -21,6 +21,7 @@ Turing machine puzzle game for emacs. A puzzle is defined with a turing machine 
 <h2>Eclim-workspace:</h2>
 Enabling easy way to open eclipse workspace through eclim. 
 - Listing recent eclipse workspaces and allowing to choose from them
+- Unlock the workspace if its restricted to one instance
 - Starting eclimd for the workspace
 - Runs user defined hooks once eclims started. (Ex: you can project explorer for the workspace)
 

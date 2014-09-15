@@ -1,6 +1,7 @@
 <h1>Eclim-workspace:</h1>
 Enabling easy way to open eclipse workspace through eclim. 
 - Listing recent eclipse workspaces and allowing to choose from them
+- Unlock the workspace if its restricted to have one instance of workspace
 - Starting eclimd for the workspace
 - Runs user defined hooks once eclims started. (Ex: you can project explorer for the workspace)
 
