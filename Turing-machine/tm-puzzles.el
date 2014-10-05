@@ -391,7 +391,7 @@ initial-tape-pos => The initial tape cursor position
 
     ;;; Complexity 2
     ;; Puzzle 5
-    (setq puzzle-states (list (list c0vd c1vd c1vd loop-3)
+    (setq puzzle-states (list (list c0vd c1vd c1vd dL loop-4)
 			      (list s0r dR dR dR)))
     (setq puzzle (make-tm-puzzle :states puzzle-states :initial-value "01011" :target "00011" :initial-tape-pos 3 :complexity 2))
     (tm-add-puzzle puzzle)
